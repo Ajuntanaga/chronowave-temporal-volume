@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The temporal volume — Module XIV | Chronowave Dynamics</title>
+<meta name="description" content="Module XIV of the Chronowave Dynamics Temporal Engine: Inside the cube: t&#179; made literal.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23070B14'/%3E%3Ctext x='32' y='44' font-family='serif' font-style='italic' font-size='34' fill='%23F5A83C' text-anchor='middle'%3Et%C2%B3%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;1,400&family=Space+Grotesk:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<style>
+/* ============================================================
+   CHRONOWAVE DYNAMICS · TEMPORAL ENGINE
+   phosphor cyan → thermal amber duotone over a deep time-field
+   ============================================================ */
+:root{
+  --field:      #070B14;
+  --field-2:    #0B1120;
+  --field-3:    #101830;
+  --ivory:      #EDE8DC;
+  --ivory-dim:  rgba(237,232,220,.62);
+  --ivory-faint:rgba(237,232,220,.38);
+  --cyan:       #59D6C9;
+  --cyan-dim:   rgba(89,214,201,.35);
+  --amber:      #F5A83C;
+  --amber-dim:  rgba(245,168,60,.35);
+  --hairline:   rgba(237,232,220,.12);
+  --serif: "STIX Two Text", "Times New Roman", serif;
+  --grot:  "Space Grotesk", system-ui, sans-serif;
+  --mono:  "IBM Plex Mono", ui-monospace, monospace;
+  --max: 1140px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+body{
+  background:var(--field); color:var(--ivory);
+  font-family:var(--serif); font-size:17px; line-height:1.72;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+::selection{background:var(--amber);color:var(--field)}
+
+.wrap{max-width:var(--max);margin:0 auto;padding:0 clamp(18px,4.5vw,56px)}
+.eyebrow{
+  font-family:var(--grot);font-size:11px;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--cyan);font-weight:500;display:flex;align-items:center;gap:14px;
+}
+.eyebrow::after{content:"";height:1px;flex:0 0 56px;background:linear-gradient(90deg,var(--cyan),transparent)}
+.eyebrow .rn{color:var(--amber);letter-spacing:.14em}
+h2{font-family:var(--serif);font-weight:500;font-size:clamp(29px,4vw,44px);line-height:1.16;letter-spacing:-.01em;margin:18px 0 8px}
+h2 em{font-style:italic;color:var(--amber)}
+h3{font-family:var(--serif);font-weight:600;font-size:20px;margin:0 0 6px}
+.lede{font-size:clamp(17px,1.6vw,20px);color:var(--ivory-dim);max-width:64ch}
+p{color:var(--ivory-dim);max-width:66ch;margin-bottom:1.1em}
+p strong{color:var(--ivory);font-weight:600}
+section{padding:clamp(68px,9vh,120px) 0;position:relative}
+section + section{border-top:1px solid var(--hairline)}
+
+/* equation panels */
+.eq-panel{background:linear-gradient(180deg,var(--field-2),rgba(13,21,36,.6));border:1px solid var(--hairline);border-left:none;border-radius:10px;padding:26px 26px 22px;margin:26px 0;overflow:visible;position:relative;counter-increment:eqn}
+.eq-panel::after{content:"eq " counter(eqn,decimal-leading-zero);position:absolute;right:14px;bottom:8px;font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:rgba(237,232,220,.28)}
+.eq-panel{box-shadow:inset 3px 0 0 0 var(--cyan)}
+.eq-panel[data-tag*="ASSUMED" i]{box-shadow:inset 3px 0 0 0 rgba(232,110,204,.85)}
+.eq-panel[data-tag*="ASSUMED" i]::before{color:rgba(232,110,204,.9)}
+.eq-panel[data-tag*="MEASURED" i],.eq-panel[data-tag*="FITTED" i]{box-shadow:inset 3px 0 0 0 var(--amber)}
+.eq-panel[data-tag*="MEASURED" i]::before,.eq-panel[data-tag*="FITTED" i]::before{color:var(--amber)}
+.eq-panel::before{content:attr(data-tag);position:absolute;top:-9px;left:20px;font-family:var(--grot);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--cyan);background:var(--field);padding:0 10px;max-width:86%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.eq{color:var(--ivory);font-size:18px;text-align:center}
+.eq .katex{font-size:1.08em}
+.eq .katex-display{margin:.35em 0}
+.eq-scroll{overflow-x:auto;padding-bottom:6px;scrollbar-width:thin;scrollbar-color:rgba(89,214,201,.35) transparent}
+.eq-scroll::-webkit-scrollbar{height:5px}
+.eq-scroll::-webkit-scrollbar-thumb{background:rgba(89,214,201,.28);border-radius:3px}
+.eq-scroll::-webkit-scrollbar-track{background:transparent}
+.katex-fallback{font-family:var(--mono);font-size:13px;color:var(--cyan);white-space:pre-wrap}
+body{counter-reset:eqn}
+
+/* instrument chrome */
+.readout{font-family:var(--mono);font-size:12.5px;color:var(--cyan);letter-spacing:.03em}
+.readout b{color:var(--amber);font-weight:500}
+.panel{background:var(--field-2);border:1px solid var(--hairline);border-radius:12px;overflow:hidden}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:13px 20px;border-bottom:1px solid var(--hairline);font-family:var(--grot);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ivory-faint);flex-wrap:wrap}
+canvas.viz{display:block;width:100%;height:auto;background:radial-gradient(120% 100% at 50% 0%, rgba(89,214,201,.05), transparent 60%), var(--field-2)}
+
+/* controls */
+.controls{display:flex;flex-wrap:wrap;gap:20px 30px;padding:18px 20px;border-top:1px solid var(--hairline)}
+/* The basis carries the 170px, not min-width: `.controls .ctrl{min-width:0}` further down (the phone
+   fix) cancels the minimum at every width, and with flex:1's zero basis a slider then never forces a
+   wrap. It shrank to 11px beside its neighbours instead (the Lorenz rho, sigma and beta sliders). */
+.ctrl{min-width:170px;flex:1 1 170px}
+.ctrl.narrow{min-width:130px;flex:0 1 180px}
+.ctrl label{display:flex;justify-content:space-between;gap:8px;font-family:var(--grot);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ivory-faint);margin-bottom:8px}
+.ctrl label output{font-family:var(--mono);color:var(--amber);letter-spacing:0;text-transform:none;white-space:nowrap}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--cyan),var(--amber));outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:15px;height:15px;border-radius:50%;background:var(--ivory);border:2px solid var(--field);box-shadow:0 0 0 1.5px var(--cyan),0 0 12px rgba(89,214,201,.5)}
+input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--ivory);border:2px solid var(--field);box-shadow:0 0 0 1.5px var(--cyan)}
+input[type=range]:focus-visible{outline:2px solid var(--amber);outline-offset:6px}
+.btn{font-family:var(--grot);font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;color:var(--field);background:var(--cyan);border:none;border-radius:100px;padding:11px 22px;cursor:pointer;transition:background .2s,transform .15s,box-shadow .2s}
+.btn:hover{background:var(--amber);box-shadow:0 0 24px rgba(245,168,60,.35)}
+.btn:active{transform:scale(.97)}
+.btn:focus-visible{outline:2px solid var(--ivory);outline-offset:3px}
+.btn.ghost{background:transparent;color:var(--cyan);border:1px solid var(--cyan-dim)}
+.btn.ghost:hover{color:var(--amber);border-color:var(--amber);box-shadow:none}
+.btn.live{background:var(--amber)}
+.btn.mini{padding:7px 14px;font-size:10.5px}
+.seg{display:inline-flex;border:1px solid var(--hairline);border-radius:100px;overflow:hidden;flex-wrap:wrap}
+.seg button{font-family:var(--grot);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:var(--ivory-faint);border:none;padding:9px 17px;cursor:pointer;transition:color .2s,background .2s}
+.seg button+button{border-left:1px solid var(--hairline)}
+.seg button[aria-pressed="true"]{background:var(--field-3);color:var(--amber)}
+.seg button:focus-visible{outline:2px solid var(--cyan);outline-offset:-3px}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--ivory-dim);background:transparent;border:1px solid var(--hairline);border-radius:100px;padding:6px 13px;cursor:pointer;transition:all .18s}
+.chip:hover{border-color:var(--cyan);color:var(--cyan)}
+.chip[aria-pressed="true"]{border-color:var(--amber);color:var(--amber);background:rgba(245,168,60,.08)}
+.chip:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+/* stat tiles */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;background:var(--hairline);border-top:1px solid var(--hairline)}
+.stat{background:var(--field-2);padding:14px 18px}
+.stat .k{font-family:var(--grot);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ivory-faint)}
+.stat .v{font-family:var(--mono);font-size:14.5px;color:var(--cyan);margin-top:4px;word-break:break-all}
+.stat .v.warm{color:var(--amber)}
+
+/* nav */
+nav#tf-nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(7,11,20,.75);border-bottom:1px solid var(--hairline)}
+nav#tf-nav .wrap{display:flex;align-items:center;justify-content:space-between;height:56px;gap:20px}
+.brand{font-family:var(--grot);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--ivory);text-decoration:none;font-weight:600;white-space:nowrap}
+.brand span{color:var(--amber)}
+.navlinks{display:flex;gap:20px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.navlinks::-webkit-scrollbar{display:none}
+.navlinks a{font-family:var(--grot);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ivory-faint);text-decoration:none;transition:color .2s;white-space:nowrap}
+.navlinks a:hover{color:var(--cyan)}
+.navlinks a .rn{color:var(--amber);margin-right:5px}
+@media(max-width:640px){.navlinks{display:none}}
+
+/* hero */
+header#hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;padding:120px 0 80px}
+#heroCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+#hero .wrap{position:relative;z-index:2}
+#hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(7,11,20,.25) 0%,rgba(7,11,20,0) 40%,rgba(7,11,20,.85) 92%)}
+.hero-kicker{font-family:var(--grot);font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:var(--cyan);margin-bottom:26px}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(42px,8vw,104px);line-height:.98;letter-spacing:-.02em}
+h1 .t-sup{display:inline-block;color:var(--amber);font-style:italic}
+.hero-sub{margin-top:30px;font-size:clamp(17px,1.9vw,21px);color:var(--ivory-dim);max-width:58ch}
+.hero-sub i{color:var(--ivory)}
+.hero-meta{margin-top:40px;display:flex;gap:32px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ivory-faint);letter-spacing:.05em}
+.hero-meta div b{display:block;color:var(--cyan);font-weight:400;margin-bottom:3px}
+.hero-cta{margin-top:42px;display:flex;gap:14px;flex-wrap:wrap}
+.scroll-hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:2;font-family:var(--grot);font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--ivory-faint);animation:hint 2.6s ease-in-out infinite}
+@keyframes hint{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+@media(prefers-reduced-motion:reduce){.scroll-hint{animation:none}}
+
+/* dimensional ladder */
+.ladder-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:40px;align-items:start;margin-top:32px}
+@media(max-width:900px){.ladder-grid{grid-template-columns:1fr}}
+.dim-list{display:flex;flex-direction:column;gap:2px}
+#frameBar{position:relative;margin-top:-58px;display:flex;align-items:center;justify-content:center;gap:18px;padding:10px 14px;background:linear-gradient(rgba(7,11,20,0),rgba(7,11,20,.88) 40%)}
+#frameBar .chips{margin:0;justify-content:center}
+.readout{font-variant-numeric:tabular-nums}
+#hlStepVals{display:inline-block;min-width:30ch;white-space:nowrap}
+#hlRung{display:inline-block;min-width:38ch;white-space:nowrap;text-align:right}
+.stepGrp{display:inline-flex;align-items:center;gap:5px;padding:3px 10px 3px 12px;border:1px solid var(--hairline);border-radius:999px;background:rgba(13,21,36,.8)}
+.stepGrp .readout{min-width:auto}
+#hlFineBand{display:none}
+#hlFineBand.on{display:flex;flex-wrap:wrap;align-items:flex-end}
+.hl-fine label{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.hl-fine output{min-width:82px;text-align:right;font-variant-numeric:tabular-nums}
+.hl-fine input[type=range]{width:100%}
+#ladderCanvas,#hlCanvas,#meshCanvas,#lorenzCanvas,#tvCanvas,#tfeCanvas{touch-action:none}
+@media (pointer:coarse){
+  .btn.mini{min-height:34px;min-width:34px;padding:6px 12px}
+  .stepGrp{padding:5px 12px}
+  input[type=number]{font-size:16px !important}
+  input[type=range]{min-height:30px}
+  select{min-height:32px;font-size:13px !important}
+}
+@media (max-width:720px){
+  .wrap{padding-left:14px;padding-right:14px}
+  .controls{gap:10px}
+  .ctrl.narrow{flex:1 1 100%}
+  #hlStepRow{gap:8px}
+  .readout{font-size:11px}
+  #meshAlg label{flex:1 1 100%}
+}
+
+/* ============ NARROW-VIEWPORT CONTAINMENT ============
+   Measured, not guessed: Chromium at 320 and 360 px reported
+   document.scrollWidth = 383, i.e. the whole page scrolled sideways, and the
+   deepest causes were a table row with min-content 369 px and a canvas with
+   min-content 367 px — both already sitting inside overflow-x:auto parents.
+   The reason the parents were not containing them is the default every grid
+   and flex item carries: min-width:auto, which resolves to MIN-CONTENT and
+   quietly overrides the scroll container. overflow-x:auto cannot shrink a box
+   whose minimum size is its content. So the fix is min-width:0 in the places
+   that scroll or are scrolled, and it belongs at every width, not behind a
+   media query — which is why this block sits outside one.
+   The canvas case is worse than a layout quirk: animate() writes
+   cv.width = cv.clientWidth every frame, so once the element has been wide,
+   its intrinsic width pins the minimum and it can never shrink back. That is a
+   one-way ratchet; max-width:100% breaks it. */
+.table-scroll, .eq-scroll{min-width:0}
+/* Any control row of buttons must be able to wrap. A non-wrapping flex row is
+   the general form of the fault measured in the lattice at 320 px, where three
+   buttons summed to 306 px in a 292 px box and pushed the whole document. */
+.controls .ctrl{min-width:0}
+.controls .ctrl > .seg, .controls .ctrl[style*="display:flex"]{flex-wrap:wrap}
+.seg{flex-wrap:wrap}
+canvas.viz{min-width:0;max-width:100%}
+.panel{min-width:0}
+.ref-grid > *, .split > *, .lattice-grid > *, .ladder-grid > *{min-width:0}
+.papers{grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
+/* long mono readouts must be allowed to break rather than push the page */
+.readout, .tier-note code{overflow-wrap:anywhere}
+
+@media (max-width:520px){
+  /* the canon and open-ruling card grids: a 252px track in a 292px content box
+     fits, but below that the track keeps its minimum and overflows. min() lets
+     the single column collapse to the container instead. */
+  #compendium [style*="minmax(252px"]{grid-template-columns:1fr !important}
+  .papers{grid-template-columns:1fr}
+  .paper{padding:18px 16px 16px}
+  .paper .glyph{font-size:30px;right:10px;top:6px}
+  .paper h3{font-size:16px;padding-right:32px}
+  .eq-panel{padding:22px 14px 18px}
+  .eq-panel::before{max-width:calc(100% - 28px)}
+  .eq{font-size:15px}
+  table.data th, table.data td{padding-right:10px}
+  .panel-head{padding:12px 14px;gap:10px}
+  .wrap{padding-left:12px;padding-right:12px}
+  /* Inline flex:0 0 auto on a control row beats the .ctrl.narrow rule above and
+     sizes the row to max-content — which is how three buttons summed to 306 px
+     inside a 292 px box. Below 520 px a control row takes the full width and
+     wraps inside itself instead. */
+  .controls .ctrl[style*="flex:0 0 auto"]{flex:1 1 100% !important}
+  .btn.mini{font-size:10px;padding:5px 9px}
+  /* the nav keeps only the brand at this width, so it must not reserve a row
+     for links that are display:none */
+  #tf-nav .wrap{gap:8px;flex-wrap:nowrap}
+  #tf-nav #palBtn{font-size:9px;padding:3px 6px;letter-spacing:0}
+  #tf-nav .brand{font-size:12px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  /* Measured at 320-414 px: the canon cards' category labels render at 9.5 px
+     in uppercase with .16em tracking, which is past legible on a phone, and the
+     "→ XIII" module links are 38x12 px tap targets. Both are compendium-wide
+     patterns, so they are fixed by shape rather than one at a time. */
+  #compendium div[style*="font-size:9.5px"]{font-size:10.5px !important;letter-spacing:.12em !important}
+  #compendium a[href^="#"]{display:inline-block;padding:7px 8px;margin:-7px -2px;min-height:30px;line-height:16px}
+}
+/* Tap targets for the in-card module links at every width: an inline anchor of
+   38x12 px is a miss on any touch screen, not only a narrow one. */
+@media (pointer:coarse){
+  #compendium a[href^="#"], .tier-note a[href^="#"]{display:inline-block;padding:6px 8px;margin:-6px -2px;min-height:30px}
+}
+body.frame-tau .rn{color:var(--amber)}
+body.frame-beat .rn{color:#E7C46B}
+.chip.fr-tau[aria-pressed="true"]{border-color:var(--amber);color:var(--amber)}
+.chip.fr-beat[aria-pressed="true"]{border-color:#E7C46B;color:#E7C46B}
+.dim-item{text-align:left;background:transparent;border:none;border-left:2px solid var(--hairline);padding:17px 20px;cursor:pointer;transition:border-color .25s,background .25s}
+.dim-item .dt{font-family:var(--serif);font-style:italic;font-size:24px;color:var(--ivory-dim);transition:color .25s}
+.dim-item .dn{font-family:var(--grot);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--ivory-faint);margin-top:2px}
+.dim-item .dd{font-family:var(--serif);font-size:14.5px;color:var(--ivory-faint);margin-top:8px;line-height:1.55;max-width:40ch}
+.dim-item[aria-pressed="true"]{border-left-color:var(--amber);background:linear-gradient(90deg,rgba(245,168,60,.07),transparent)}
+.dim-item[aria-pressed="true"] .dt{color:var(--amber)}
+.dim-item[aria-pressed="true"] .dn{color:var(--cyan)}
+.dim-item:focus-visible{outline:2px solid var(--cyan);outline-offset:-2px}
+
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:center}
+@media(max-width:900px){.split{grid-template-columns:1fr}}
+.split.top{align-items:start}
+
+/* tables */
+table.data{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px}
+table.data caption{caption-side:top;text-align:left;font-family:var(--grot);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--ivory-faint);padding-bottom:12px}
+table.data th{font-weight:400;text-align:left;color:var(--cyan);letter-spacing:.05em;border-bottom:1px solid var(--hairline);padding:8px 12px 10px 0;white-space:nowrap}
+table.data td{color:var(--ivory-dim);padding:10px 12px 10px 0;border-bottom:1px solid rgba(237,232,220,.06);white-space:nowrap}
+table.data td.err{color:var(--amber)}
+table.data tr.final td{color:var(--ivory)}
+table.data tr.final td.err{color:var(--cyan);text-shadow:0 0 14px rgba(89,214,201,.5)}
+.table-scroll{overflow-x:auto}
+.ref-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:40px;align-items:start;margin-top:28px}
+@media(max-width:960px){.ref-grid{grid-template-columns:1fr}}
+
+/* master eq */
+.tier-note{font-family:var(--grot);font-size:11.5px;letter-spacing:.08em;color:var(--ivory-faint);margin-top:10px;line-height:1.6}
+/* .ctrl label and .panel-head are upper-cased, which also turns gamma into Gamma, omega into Omega
+   and "t" into "T". Symbols and live readouts keep their case. */
+.sym, .panel-head .readout{text-transform:none}
+.cpl{white-space:nowrap;margin-right:14px}
+.cpl input{width:5.2em;background:#0d1524;color:var(--amber);border:1px solid var(--hairline);border-radius:6px;padding:3px 6px;font-family:var(--mono);font-size:12px}
+.cpl input:focus-visible{outline:2px solid var(--cyan);outline-offset:1px}
+.tier-note a{color:var(--cyan);text-underline-offset:2px}
+.tier-note a:hover{color:var(--amber)}
+/* Modules V, VI, VIII-XII, XIV, XVI: prose runs the full column instead of a 64-74ch strip on the
+   left, matching the standalone module extracts. Drop a section from this list to restore the strip. */
+:is(#scramble,#gnss,#hydrogen,#cosmos,#master,#horizons,#attractor,#volume,#observatory) :is(p,.lede,.gr-list){max-width:none}
+:is(#scramble,#gnss,#hydrogen,#cosmos,#master,#horizons,#attractor,#volume,#observatory) .panel + .tier-note{margin-top:18px}
+.gr-list{list-style:none;margin:22px 0 0;display:grid;gap:12px;max-width:64ch}
+.gr-list li{padding-left:26px;position:relative;color:var(--ivory-dim);font-size:16px}
+.gr-list li::before{content:"";position:absolute;left:0;top:.62em;width:12px;height:1.5px;background:linear-gradient(90deg,var(--cyan),var(--amber))}
+
+/* lattice */
+.lattice-grid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:40px;align-items:start;margin-top:28px}
+@media(max-width:940px){.lattice-grid{grid-template-columns:1fr}}
+.scale-row{display:flex;gap:6px;flex-wrap:wrap;margin:18px 0 6px}
+.scale-cell{font-family:var(--mono);font-size:13px;color:var(--ivory-dim);border:1px solid var(--hairline);border-radius:8px;padding:9px 0;cursor:pointer;transition:all .18s;background:transparent;flex:1;min-width:44px;text-align:center}
+.scale-cell small{display:block;font-size:9px;color:var(--ivory-faint);letter-spacing:.08em;margin-top:2px}
+.scale-cell:hover{border-color:var(--cyan);color:var(--cyan)}
+.scale-cell.on{border-color:var(--amber);color:var(--amber);background:rgba(245,168,60,.09);box-shadow:0 0 18px rgba(245,168,60,.18)}
+.scale-cell:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+/* papers / compendium */
+.papers{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:34px}
+.paper{border:1px solid var(--hairline);border-radius:12px;padding:22px 22px 20px;background:linear-gradient(160deg,var(--field-2),transparent 70%);transition:border-color .25s,transform .25s;position:relative;overflow:hidden}
+.paper:hover{border-color:var(--cyan-dim);transform:translateY(-3px)}
+.paper .pn{font-family:var(--mono);font-size:11px;color:var(--amber);letter-spacing:.08em;margin-bottom:11px}
+.paper h3{font-size:17.5px;line-height:1.35;font-weight:600}
+.paper p{font-size:13.5px;line-height:1.6;color:var(--ivory-faint);margin:9px 0 0;max-width:none}
+.paper .glyph{position:absolute;right:14px;top:8px;font-family:var(--serif);font-style:italic;font-size:42px;color:rgba(89,214,201,.14)}
+
+.origin{border:1px solid var(--hairline);border-left:2px solid var(--amber);border-radius:0 12px 12px 0;padding:26px 30px;background:linear-gradient(90deg,rgba(245,168,60,.05),transparent 55%);margin-top:28px}
+.origin p{max-width:72ch}
+.origin .tagline{font-family:var(--mono);font-size:12px;color:var(--amber);letter-spacing:.06em;margin-bottom:13px}
+
+footer{border-top:1px solid var(--hairline);padding:54px 0 70px;font-family:var(--grot);font-size:12px;letter-spacing:.14em;color:var(--ivory-faint)}
+footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:baseline}
+footer .disc{font-family:var(--serif);font-size:13.5px;letter-spacing:0;max-width:52ch;line-height:1.6}
+
+/* scroll progress: time elapsed through the document */
+#progress{position:fixed;top:0;left:0;height:2px;width:0;z-index:60;background:linear-gradient(90deg,var(--cyan),var(--amber));box-shadow:0 0 10px rgba(245,168,60,.5);pointer-events:none}
+.navlinks a.active{color:var(--amber)}
+/* section reveal (only when JS is live) */
+body.js section > .wrap{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+body.js section > .wrap.vis{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){body.js section > .wrap{opacity:1;transform:none;transition:none}}
+
+/* command console */
+#palette{position:fixed;inset:0;z-index:80;display:none;background:rgba(4,6,12,.66);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+#palette.open{display:flex;align-items:flex-start;justify-content:center;padding:12vh 18px 0}
+.pal-box{width:min(560px,100%);background:var(--field-2);border:1px solid var(--cyan-dim);border-radius:14px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.6),0 0 40px rgba(89,214,201,.12)}
+.pal-box input{width:100%;background:transparent;border:none;outline:none;color:var(--ivory);font-family:var(--mono);font-size:15px;padding:16px 18px;border-bottom:1px solid var(--hairline)}
+.pal-box input::placeholder{color:var(--ivory-faint)}
+.pal-list{max-height:46vh;overflow-y:auto}
+.pal-item{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:11px 18px;cursor:pointer;font-family:var(--grot);font-size:13px;letter-spacing:.06em;color:var(--ivory-dim)}
+.pal-item .cat{font-family:var(--mono);font-size:10px;color:var(--ivory-faint);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.pal-item.sel{background:var(--field-3);color:var(--amber)}
+.pal-item.sel .cat{color:var(--cyan)}
+.pal-foot{display:flex;gap:16px;padding:9px 18px;border-top:1px solid var(--hairline);font-family:var(--mono);font-size:10px;color:var(--ivory-faint)}
+kbd{font-family:var(--mono);font-size:10px;color:var(--cyan);border:1px solid var(--hairline);border-bottom-width:2px;border-radius:4px;padding:1px 6px;background:var(--field)}
+#palBtn{font-family:var(--mono);font-size:10.5px;color:var(--ivory-faint);background:transparent;border:1px solid var(--hairline);border-radius:6px;padding:4px 9px;cursor:pointer;white-space:nowrap;transition:color .2s,border-color .2s}
+#palBtn:hover{color:var(--cyan);border-color:var(--cyan-dim)}
+.key-hint{font-family:var(--mono);font-size:10.5px;color:var(--ivory-faint);letter-spacing:.04em;margin-top:10px}
+
+/* M3 source lattice */
+.m3-wrap{overflow-x:auto;padding:18px}
+.m3-grid{display:grid;grid-template-columns:repeat(13,minmax(52px,1fr));gap:0;min-width:720px;border:1px solid var(--hairline)}
+.m3-cell{
+  font-family:var(--mono);font-size:10.5px;color:var(--ivory-dim);
+  background:transparent;border:none;border-right:1px solid rgba(237,232,220,.09);border-bottom:1px solid rgba(237,232,220,.09);
+  padding:9px 3px;cursor:pointer;text-align:center;white-space:nowrap;transition:background .15s,color .15s;
+}
+.m3-cell:hover{color:var(--cyan);background:rgba(89,214,201,.06)}
+.m3-cell:focus-visible{outline:2px solid var(--cyan);outline-offset:-2px}
+.m3-cell.band{background:rgba(89,214,201,.045)}
+.m3-cell.bandL{border-left:2px double rgba(89,214,201,.55)}
+.m3-cell.bandR{border-right:2px double rgba(89,214,201,.55)}
+.m3-cell.a440{box-shadow:inset 0 0 0 1px rgba(245,168,60,.7)}
+.m3-cell.zeroSph{position:relative}
+.m3-cell.zeroSph::after{content:"";position:absolute;top:3px;right:3px;width:7px;height:7px;border-radius:50%;border:1px solid rgba(237,232,220,.55);background:transparent}
+.m3-cell:not(.zeroSph)::after{content:"";position:absolute;top:3px;right:3px;width:7px;height:7px;border-radius:50%;border:1px solid rgba(89,214,201,.30);background:radial-gradient(circle at 35% 35%, rgba(89,214,201,.45), rgba(89,214,201,.06))}
+.m3-cell{position:relative}
+.m3-key-zero,.m3-key-work{display:inline-block;width:8px;height:8px;border-radius:50%;vertical-align:baseline;margin:0 2px}
+.m3-key-zero{border:1px solid rgba(237,232,220,.55)}
+.m3-key-work{border:1px solid rgba(89,214,201,.35);background:radial-gradient(circle at 35% 35%, rgba(89,214,201,.5), rgba(89,214,201,.08))}
+.m3-cell.rule{border-right:3px double rgba(237,232,220,.35)}
+.m3-cell.tonic{color:var(--amber);font-weight:500}
+
+.m3-cell.lit{background:rgba(245,168,60,.16);color:var(--amber);box-shadow:inset 0 0 0 1px rgba(245,168,60,.4)}
+.m3-cell.sel{background:rgba(245,168,60,.3);color:var(--field);font-weight:600;text-shadow:none}
+.m3-readout{font-family:var(--mono);font-size:11.5px;color:var(--ivory-dim);padding:12px 20px;border-top:1px solid var(--hairline);display:flex;gap:18px;flex-wrap:wrap}
+.m3-readout b{color:var(--amber);font-weight:500}
+.m3-readout .q{color:var(--cyan)}
+.m3-grid.m3-num .m3-cell{font-size:9.3px;letter-spacing:0;padding:9px 2px}
+
+
+/* live equation lines — panels recalculate with the module's current parameters */
+.eq-live{border-top:1px dashed var(--hairline);margin-top:16px;padding-top:12px;color:var(--cyan);font-size:14px;overflow-x:auto}
+.eq-live .katex{font-size:.98em}
+.eq-live::before{content:"live";font-family:var(--grot);font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--amber);display:block;margin-bottom:7px}
+.txt-in{font-family:var(--mono);font-size:12.5px;color:var(--ivory);background:var(--field-3);border:1px solid var(--hairline);border-radius:8px;padding:8px 12px;width:100%;outline:none}
+.txt-in:focus{border-color:var(--cyan)}
+#helpBox{position:fixed;inset:0;z-index:80;display:none;background:rgba(4,6,12,.66);backdrop-filter:blur(6px)}
+#helpBox.open{display:flex;align-items:center;justify-content:center;padding:20px}
+.help-card{width:min(460px,100%);background:var(--field-2);border:1px solid var(--cyan-dim);border-radius:14px;padding:26px 30px}
+.help-card h3{font-family:var(--grot);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--cyan);margin-bottom:16px}
+.help-card .row{display:flex;justify-content:space-between;gap:16px;font-family:var(--grot);font-size:13px;color:var(--ivory-dim);padding:7px 0;border-bottom:1px solid rgba(237,232,220,.06)}
+.icv-out{font-family:var(--mono);font-size:11.5px;color:var(--cyan);margin-top:10px;letter-spacing:.04em}
+.icv-out b{color:var(--amber);font-weight:500}
+@keyframes gradientBG{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.hl-panel{position:relative}
+.hl-panel::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;z-index:2;
+  background:linear-gradient(-65deg,var(--cyan),#c850c8,var(--amber),var(--cyan));
+  background-size:400% 400%;animation:gradientBG 45s ease infinite}
+@media(prefers-reduced-motion:reduce){.hl-panel::before{animation:none}}
+.qreg{display:flex;flex-wrap:wrap;gap:6px;padding:12px 20px;border-top:1px solid var(--hairline)}
+.qreg .qk{font-family:var(--mono);font-size:10.5px;color:var(--ivory-dim);border:1px solid var(--hairline);border-radius:6px;padding:5px 9px;cursor:pointer;background:transparent;transition:all .15s}
+.qreg .qk small{color:var(--ivory-faint);margin-right:5px}
+.qreg .qk:hover{border-color:var(--cyan);color:var(--cyan)}
+.qreg .qk.hit{border-color:var(--amber);color:var(--amber);background:rgba(245,168,60,.12);box-shadow:0 0 14px rgba(245,168,60,.25)}
+.qreg .qk.zero{border-style:dashed;color:var(--ivory-faint)}
+.qreg .qk.zero.hit{border-color:var(--ivory);color:var(--ivory);background:rgba(237,232,220,.08)}
+</style>
+</head>
+<body>
+<div class="wrap" style="padding-top:28px">
+  <div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ivory-faint)">Chronowave Dynamics &middot; Temporal Engine &middot; standalone module extract</div>
+</div>
+<section id="volume">
+  <div class="wrap">
+    <div class="eyebrow"><span class="rn">XIV</span> The temporal volume</div>
+    <h2>Inside the cube: <em>t&#179; made literal</em></h2>
+    <p class="lede">The three axes of this cube are T&#8321;, T&#8322;, T&#8323; &mdash; not space, but time in
+      three directions. The interior is the cubic-time interference field itself: standing nodes where the
+      three temporal phases agree, voids where they cancel. <strong>Drag the cube to turn it</strong>, and switch
+      to <strong>Cubic mesh</strong> to see the geodesic time mesh promoted from its t&#178; surface into full
+      t&#179; structure &mdash; a wireframe that lives in the volume and warps with the field.</p>
+    <div class="eq-panel" data-tag="Cubic-time field">
+      <div class="eq eq-scroll" data-tex="\Psi(t_1,t_2,t_3) = A\,e^{\,i(\omega_1 t_1 + \omega_2 t_2 + \omega_3 t_3)}, \qquad V_{\text{temporal}} = \frac{V_{\text{spatial}}}{t_1 \times t_2}"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head">
+        <span class="seg" role="group" aria-label="Field mode">
+          <button id="tvModeA" aria-pressed="true">Interference nodes</button>
+          <button id="tvModeB" aria-pressed="false">Beat alignment</button>
+        </span>
+        <span style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <button class="btn mini" id="tvSweepBtn" aria-pressed="false">Sweep T&#8323; slice</button>
+          <span class="readout">volume lit: <b id="tvLit">38%</b> &middot; <b id="tvAlpha"></b></span>
+        </span>
+      </div>
+      <canvas class="viz" id="tvCanvas" height="500" aria-label="Rotatable cube of the three time dimensions filled with the interference field; drag to rotate" style="cursor:grab;touch-action:none"></canvas>
+      <div class="controls">
+        <div class="ctrl">
+          <label for="tvW1">&omega;&#8321; &middot; T&#8321; <output id="tvW1Out">1.50</output></label>
+          <input type="range" id="tvW1" min="0" max="4" step="0.01" value="1.5">
+        </div>
+        <div class="ctrl">
+          <label for="tvW2">&omega;&#8322; &middot; T&#8322; <output id="tvW2Out">2.00</output></label>
+          <input type="range" id="tvW2" min="0" max="4" step="0.01" value="2">
+        </div>
+        <div class="ctrl">
+          <label for="tvW3">&omega;&#8323; &middot; T&#8323; (fine phase) <output id="tvW3Out">1.00</output></label>
+          <input type="range" id="tvW3" min="0" max="4" step="0.01" value="1">
+        </div>
+        <div class="ctrl narrow">
+          <label for="tvPh">Phase drift <output id="tvPhOut">0.40</output></label>
+          <input type="range" id="tvPh" min="0" max="1.5" step="0.01" value="0.4">
+        </div>
+        <div class="ctrl narrow">
+          <label for="tvTh">Node threshold <output id="tvThOut">0.30</output></label>
+          <input type="range" id="tvTh" min="0.05" max="0.8" step="0.01" value="0.3">
+        </div>
+        <div class="ctrl narrow" style="flex:0 1 auto">
+          <label>Render</label>
+          <span class="seg" role="group" aria-label="Render mode">
+            <button id="tvRenA" aria-pressed="true">Point field</button>
+            <button id="tvRenB" aria-pressed="false">Cubic mesh</button>
+          </span>
+        </div>
+        <div class="ctrl" style="flex:1 1 100%">
+          <div class="readout" id="tvReal" style="line-height:1.8">&mdash;</div>
+        </div>
+        <div class="ctrl narrow" style="flex:0 1 auto">
+          <label>View lock</label>
+          <div class="chips">
+            <button class="chip" data-tvv="12">T&#8321;T&#8322;</button>
+            <button class="chip" data-tvv="13">T&#8321;T&#8323;</button>
+            <button class="chip" data-tvv="23">T&#8322;T&#8323;</button>
+            <button class="chip" data-tvv="0" aria-pressed="true">Free</button>
+          </div>
+        </div>
+        <div class="ctrl narrow" style="flex:0 1 auto">
+          <label>Cross-module links</label>
+          <div class="chips">
+            <button class="chip" id="tvDrive" aria-pressed="false">Lorenz drive</button>
+            <button class="chip" id="tvDamp" aria-pressed="false">Scramble damping</button>
+            <button class="chip" id="tvLat" aria-pressed="false" title="Set the three omegas from the first three intervals of the active scale">Lattice &omega;s</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="tier-note">Interference-node mode is the product field
+      cos&omega;&#8321;T&#8321;&middot;cos&omega;&#8322;T&#8322;&middot;cos&omega;&#8323;T&#8323; &mdash; the same
+      form the Scramble Zone damps with e<sup>&minus;&gamma;t</sup>. Beat-alignment mode sums the phases, and the
+      bright planes are where the temporal beats agree. In <strong>Cubic mesh</strong> render, the lattice lines
+      are the mesh field itself: every gridline displaces radially with the local field value &mdash; the t&#178;
+      surface's undulation, promoted one dimension &mdash; so the volume visibly breathes where the phases
+      constructively align. Sweep the T&#8323; slice and the grid intersections on the plane flare as it passes.
+      Take &omega;&#8323; toward zero and the field flattens along T&#8323;: the fine phase relegating itself to
+      the coupling, 1/137. The view-lock planes are the mixed volumetric products: T&#8321;T&#8322; is the
+      t&middot;&tau; plane, and the mixed volumes t&#178;&middot;&tau; and &tau;&#178;&middot;t are the slabs swept
+      as the T&#8323; slice travels through them.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div style="color:var(--ivory);letter-spacing:.3em;text-transform:uppercase;margin-bottom:10px">Chronowave <span style="color:var(--amber)">Dynamics</span></div>
+      <div>Framework &amp; papers &middot; Anthony M. Vargas &amp; Aethus Iqbal-Samir &middot; 2024&ndash;2026</div>
+    </div>
+    <div class="disc">Module XIV &middot; The temporal volume, extracted standalone from the full Temporal Engine compendium on 2026-11-14. A speculative theoretical framework, presented as proposed in the source papers and prototypes.</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+/* STUB of ladderTitle (Module I) for the standalone extract: a plain object with a textContent member, so the dimension buttons' wiring has something to write to; there is no Module I title bar here and nothing is displayed. */
+const ladderTitle = { textContent: "Dimension · coordinate time" };
+/* STUB of FRAME (Module I) for the standalone extract: the same order, combo, COMBOS and last members with the real initial values (order 0, frame "t"); set() only records the chosen frame and announces "framechange", it does not redraw any Module I readout or page classes. Fixed at order 0, frame "t". */
+const FRAME = {
+  order: 0, combo: "t", last: undefined,
+  COMBOS: [
+    ["t", "τ"],
+    ["t²", "τ²", "t·τ", "τ·t",
+     "B_T·t", "B_T·τ", "B_T²"],
+    ["t³", "τ³", "t²·τ", "τ²·t",
+     "B_T·t·τ", "B_T·t²", "B_T·τ²",
+     "B_T²·t", "B_T²·τ"]
+  ],
+  set(c){
+    this.combo = c;
+    (this.last = this.last || {})[this.order] = c;
+    document.dispatchEvent(new CustomEvent("framechange"));
+  }
+};
+/* STUB of lat (Module IV) for the standalone extract: only the three members the "Lattice" chip uses. The real scale, root and tuning are fixed at their start-up values: scale {0,2,3,4,6,8,10} semitones (the identity scale), root 261.63 Hz, equal temperament. freq() keeps the real equal-temperament formula; actives() returns the fixed scale; root() returns the fixed root. */
+const lat = {
+  mask: new Set([0, 2, 3, 4, 6, 8, 10]),
+  rootEl: { value: "261.63", addEventListener(){} },
+  freq(semi){ return this.root() * Math.pow(2, semi / 12); },
+  root(){ return +this.rootEl.value; },
+  actives(){ return [...this.mask].sort((a, b) => a - b); }
+};
+/* STUB of lo (Module XII) for the standalone extract: the attractor's x coordinate and its keep-alive step, fixed at x = 0, so the "Lorenz drive" button only slows the phase animation to a quarter here (there is no attractor term). */
+const lo = { x: 0, keepAlive(){} };
+/* STUB of sz (Module V) for the standalone extract: the scramble zone's damping factor D, fixed at 1 (no damping), so the "Scramble damping" button changes nothing here. */
+const sz = { params(){ return { D: 1 }; } };
+const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const CYAN = "#59D6C9", AMBER = "#F5A83C", IVORY = "#EDE8DC";
+function renderTex(el, tex, display){
+  if (window.katex){
+    try { katex.render(tex, el, {displayMode: display !== false, throwOnError: false}); return; }
+    catch(e){}
+  }
+  el.innerHTML = '<span class="katex-fallback"></span>';
+  el.firstChild.textContent = tex;
+}
+document.querySelectorAll(".eq[data-tex]").forEach(el => renderTex(el, el.dataset.tex));
+function fitCanvas(cv){
+  /* THE WHITEOUT BUG LIVED HERE: this used to read h from the height
+     attribute and then write cv.height = h*dpr \u2014 which IS that attribute.
+     On DPR-2 devices every call doubled the canvas (300\u2192600\u2192...) until it
+     passed the browser's max canvas area and rendering silently stopped:
+     the hyper-expansion and the blankouts were one bug. The design height
+     is now cached once and the resize is idempotent. */
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  if (!cv.dataset.designH) cv.dataset.designH = cv.getAttribute("height") || cv.clientHeight || 300;
+  const w = cv.clientWidth, h = +cv.dataset.designH;
+  const bw = Math.round(w * dpr), bh = Math.round(h * dpr);
+  if (cv.width !== bw) cv.width = bw;
+  if (cv.height !== bh) cv.height = bh;
+  cv.style.height = h + "px";
+  const ctx = cv.getContext("2d");
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return {ctx, w, h};
+}
+const animators = [];
+function animate(cv, draw){
+  /* Resilient loop: an exception in one frame must never kill the rAF chain
+     (the old behavior \u2014 one NaN-radius throw blanked the module until
+     reload: the reported whiteouts). Errors are caught, context state is
+     restored so dirt can't leak into later frames, the first few are logged
+     (+ collected on window.__frameErrs for the harness). Zero-size boxes are
+     skipped rather than fitted; height changes now also trigger refit. */
+  let st = null, visible = true, t0 = performance.now(), errN = 0;
+  const io = new IntersectionObserver(en => { visible = en[0].isIntersecting; }, {rootMargin:"140px"});
+  io.observe(cv);
+  function frame(now){
+    if (visible && cv.clientWidth > 0){
+      /* designH is also watched: a view that asks for a new height from inside
+         its draw (VIII's legacy "Two clocks · Z" asks for 472/664) used to be
+         clipped at the old height, because clientHeight still matched st.h */
+      if (!st || st.w !== cv.clientWidth || st.h !== cv.clientHeight ||
+          (cv.dataset.designH && st.h !== +cv.dataset.designH)) st = fitCanvas(cv);
+      try{
+        st.ctx.save();
+        draw(st.ctx, st.w, st.h, reduced ? 0 : (now - t0) / 1000);
+        st.ctx.restore();
+      }catch(e2){
+        try{ st.ctx.restore(); }catch(e3){}
+        errN++;
+        (window.__frameErrs = window.__frameErrs || []).push(cv.id + ": " + e2.message);
+        if (errN <= 3) console.warn("frame error on #" + cv.id, e2);
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+  animators.push(() => { st = null; });
+}
+window.addEventListener("resize", () => animators.forEach(f => f()));
+function duo(mix, a){ /* cyan->amber */
+  return `rgba(${89+(245-89)*mix|0},${214+(168-214)*mix|0},${201+(60-201)*mix|0},${a})`;
+}
+let dim = 0;
+const dimBtns = document.querySelectorAll(".dim-item");
+const DIM_META = [
+  ["Dimension \u00B7 coordinate time", "mode <b>t</b>"],
+  ["Dimension \u00B7 temporal area", "mode <b>t\u00B2</b>"],
+  ["Dimension \u00B7 temporal volume", "mode <b>t\u00B3</b> \u00B7 t\u2083\u21920 \u2192 <b>1/137</b>"]
+];
+dimBtns.forEach(b => b.addEventListener("click", () => {
+  dim = +b.dataset.dim;
+  dimBtns.forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+  ladderTitle.textContent = DIM_META[dim][0];
+  FRAME.order = dim;
+  FRAME.set((FRAME.last && FRAME.last[dim]) || FRAME.COMBOS[dim][0]);
+document.addEventListener("framechange", () => {
+  /* XIV: third-order frames name the volumetric product being watched */
+  const tvA = document.getElementById("tvAlpha");
+  if (tvA){
+    if (FRAME.order === 2)
+      tvA.innerHTML = "frame " + FRAME.combo.replace("B_T", "B<sub>T</sub>");
+    else if (tvA.innerHTML.indexOf("frame") === 0) tvA.innerHTML = "";
+  }
+});
+}));
+const tv = {
+  rotX: -0.42, rotY: 0.68, mode: 0, sweep: false, dragging: false, lx: 0, ly: 0,
+  el: {
+    w1: document.getElementById("tvW1"), w1Out: document.getElementById("tvW1Out"),
+    w2: document.getElementById("tvW2"), w2Out: document.getElementById("tvW2Out"),
+    w3: document.getElementById("tvW3"), w3Out: document.getElementById("tvW3Out"),
+    ph: document.getElementById("tvPh"), phOut: document.getElementById("tvPhOut"),
+    lit: document.getElementById("tvLit"), alpha: document.getElementById("tvAlpha")
+  },
+  /* THE CUBE NOW HOLDS THE FRAMEWORK'S ACTUAL TEMPORAL VOLUME.
+     Until now the three sliders were display frequencies in arbitrary units
+     and the only "physics" on the panel was a string switch \u2014 w3 < 0.2 printed
+     "t3 -> 1/137 regime" and otherwise "cubic-time field". A label, not a
+     computation, on the one module whose entire subject is V_T = t1 t2 t3.
+
+     The real quantity is available and used twice elsewhere in this engine:
+     Module VIII normalises the state with A = (t1 t2 t3)^-1/2 (its own cure for
+     eq (6) diverging), and Module IX's count n_c is the exponent by which V_T
+     tracks cosmic age. Three independent routes put n_c = 0 \u2014 cosmology, a
+     constant alpha, and that normalisation only being a constant if V_T is \u2014
+     so this cube holds a FIXED volume, and it should say what it is. */
+  T: { t1: 1.84e-22, t2: 1.29e-20, t3: 5.35e-13 },   /* paper's final row (FITTED) */
+  V(){ const T = this.T; return T.t1*T.t2*T.t3; },   /* s^3 */
+  A(){ return Math.pow(this.V(), -0.5); },           /* s^-3/2, the eq (6) normaliser */
+  /* the cube's normalised axes map to real seconds: edge i spans [0, t_i] */
+  edges(){ const T = this.T; return [T.t1, T.t2, T.t3]; },
+  /* the slider ratios are what the panel can honestly vary: the SHAPE of the
+     volume at fixed content, or its content at fixed shape. Report which. */
+  upd(){
+    this.el.w1Out.value = (+this.el.w1.value).toFixed(2);
+    this.el.w2Out.value = (+this.el.w2.value).toFixed(2);
+    this.el.w3Out.value = (+this.el.w3.value).toFixed(2);
+    this.el.phOut.value = (+this.el.ph.value).toFixed(2);
+    const V = this.V(), A = this.A(), T = this.T;
+    const w3 = +this.el.w3.value;
+    this.el.alpha.textContent = w3 < 0.2 ? "\u03C9\u2083 \u2192 0 \u00B7 flat along T\u2083" : "three-channel field";
+    const box = document.getElementById("tvReal");
+    if (box) box.innerHTML =
+      "<b>the volume this cube stands for</b> \u00B7 t\u2081 = " + T.t1.toExponential(2) + " s \u00B7 t\u2082 = " +
+      T.t2.toExponential(2) + " s \u00B7 t\u2083 = " + T.t3.toExponential(2) + " s" +
+      " \u2192 V<sub>T</sub> = <b>" + V.toExponential(3) + " s\u00B3</b>" +
+      "<br>aspect t\u2081 : t\u2082 : t\u2083 = 1 : " + (T.t2/T.t1).toPrecision(4) + " : " + (T.t3/T.t1).toPrecision(4) +
+      " \u2014 the edges span <b>" + (Math.log10(T.t3/T.t1)).toFixed(2) + " decades</b>, so a cube drawn to scale " +
+      "would be a needle " + (T.t3/T.t1).toExponential(2) + " times longer than it is wide. The render is " +
+      "normalised per axis and that is a <span style='color:rgb(232,110,204)'>[DISPLAY CHOICE]</span>, not a shape claim." +
+      "<br>eq (6) normaliser A = V<sub>T</sub><sup>\u22121/2</sup> = <b>" + A.toExponential(3) +
+      " s<sup>\u22123/2</sup></b> \u00B7 <span style='color:var(--cyan)'>this is the number Module VIII needs to be a " +
+      "constant for the state to normalise at all, and Module IX's n\u1D9C = 0 is exactly the statement that it is one" +
+      "</span> \u00B7 <a href='#hydrogen' style='color:var(--cyan)'>\u2192 VIII</a> <a href='#cosmos' style='color:var(--cyan)'>\u2192 IX</a>" +
+      "<br>if n\u1D9C were not 0, V<sub>T</sub> \u221D t<sup>n\u1D9C</sup> and A would drift as t<sup>\u2212n\u1D9C/2</sup>: over a " +
+      "Hubble time that is a factor " + Math.pow(4.35e17/5.35e-13, 0.5).toExponential(2) + " at n\u1D9C = 1, which no " +
+      "stationary state survives. The cube is fixed because the framework cannot afford it to move.";
+  }
+};
+tv.el.th = document.getElementById("tvTh");
+tv.el.thOut = document.getElementById("tvThOut");
+["w1","w2","w3","ph"].forEach(k => tv.el[k].addEventListener("input", () => tv.upd()));
+tv.el.th.addEventListener("input", () => { tv.el.thOut.value = (+tv.el.th.value).toFixed(2); });
+tv.upd();
+document.getElementById("tvModeA").addEventListener("click", function(){
+  tv.mode = 0; this.setAttribute("aria-pressed","true");
+  document.getElementById("tvModeB").setAttribute("aria-pressed","false");
+});
+document.getElementById("tvModeB").addEventListener("click", function(){
+  tv.mode = 1; this.setAttribute("aria-pressed","true");
+  document.getElementById("tvModeA").setAttribute("aria-pressed","false");
+});
+const tvSweepBtn = document.getElementById("tvSweepBtn");
+tvSweepBtn.addEventListener("click", () => {
+  tv.sweep = !tv.sweep;
+  tvSweepBtn.classList.toggle("live", tv.sweep);
+  tvSweepBtn.setAttribute("aria-pressed", String(tv.sweep));
+});
+tv.render = 0;
+tv.driveOn = false;
+tv.dampOn = false;
+document.getElementById("tvRenA").addEventListener("click", function(){
+  tv.render = 0; this.setAttribute("aria-pressed","true");
+  document.getElementById("tvRenB").setAttribute("aria-pressed","false");
+});
+document.getElementById("tvRenB").addEventListener("click", function(){
+  tv.render = 1; this.setAttribute("aria-pressed","true");
+  document.getElementById("tvRenA").setAttribute("aria-pressed","false");
+});
+document.querySelectorAll('#volume .chip[data-tvv]').forEach(c => c.addEventListener("click", () => {
+  const v = c.dataset.tvv;
+  if (v === "12"){ tv.rotX = 0.001; tv.rotY = 0.001; }
+  else if (v === "13"){ tv.rotX = Math.PI/2 - 0.001; tv.rotY = 0.001; }
+  else if (v === "23"){ tv.rotX = 0.001; tv.rotY = Math.PI/2; }
+  else { tv.rotX = -0.42; tv.rotY = 0.68; }
+  tv.lock = v !== "0";            /* a locked view stays put; it used to keep spinning under a lit chip */
+  document.querySelectorAll('#volume .chip[data-tvv]').forEach(x => x.setAttribute("aria-pressed", String(x === c)));
+}));
+document.getElementById("tvDrive").addEventListener("click", function(){
+  tv.driveOn = !tv.driveOn;
+  this.setAttribute("aria-pressed", String(tv.driveOn));
+});
+document.getElementById("tvDamp").addEventListener("click", function(){
+  tv.dampOn = !tv.dampOn;
+  this.setAttribute("aria-pressed", String(tv.dampOn));
+});
+document.getElementById("tvLat").addEventListener("click", function(){
+  /* omegas from the first three non-root intervals of the active scale: 2^(s/12) ratios */
+  const acts = lat.actives().filter(x => x > 0);
+  const pick = [acts[0] || 4, acts[1] || 7, acts[2] || 10];
+  /* the lattice's own ratios in its current tuning (just intonation included). The sliders had step 0.05,
+     which turned 1.26 into 1.25 and 1.78 into 1.80, and this always used equal temperament */
+  ["w1","w2","w3"].forEach((k, i) => {
+    tv.el[k].value = (lat.freq(pick[i])/lat.root()).toFixed(3);
+  });
+  tv.upd();
+  this.setAttribute("aria-pressed", "true");
+  setTimeout(() => this.setAttribute("aria-pressed", "false"), 900);
+});
+const tvCv = document.getElementById("tvCanvas");
+tvCv.addEventListener("pointerdown", e => {
+  tv.dragging = true; tv.lx = e.clientX; tv.ly = e.clientY;
+  tvCv.setPointerCapture(e.pointerId);
+  tvCv.style.cursor = "grabbing";
+});
+tvCv.addEventListener("pointermove", e => {
+  if (!tv.dragging) return;
+  tv.rotY += (e.clientX - tv.lx) * 0.007;
+  tv.rotX = Math.max(-1.45, Math.min(1.45, tv.rotX + (e.clientY - tv.ly) * 0.007));
+  tv.lx = e.clientX; tv.ly = e.clientY;
+});
+["pointerup","pointercancel"].forEach(ev => tvCv.addEventListener(ev, () => {
+  tv.dragging = false; tvCv.style.cursor = "grab";
+}));
+animate(tvCv, (ctx, w, h, t) => {
+  ctx.clearRect(0, 0, w, h);
+  if (!tv.dragging && !reduced && !tv.lock) tv.rotY += 0.0016;
+  const cx = w/2, cy = h/2, S = Math.min(w, h)*0.31, persp = 3.4;
+  const cyr = Math.cos(tv.rotY), syr = Math.sin(tv.rotY);
+  const cxr = Math.cos(tv.rotX), sxr = Math.sin(tv.rotX);
+  function P3(x, y, z){
+    let X = x*cyr - z*syr, Z = x*syr + z*cyr;
+    let Y = y*cxr - Z*sxr; Z = y*sxr + Z*cxr;
+    const s = persp/(persp + Z);
+    return [cx + X*S*s, cy - Y*S*s, Z, s];
+  }
+  /* cube edges (behind) */
+  const C = [[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]];
+  const CE = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+  function edges(alpha){
+    ctx.strokeStyle = `rgba(245,168,60,${alpha})`; ctx.lineWidth = 1.3;
+    CE.forEach(([a, b]) => {
+      const p = P3(...C[a]), q = P3(...C[b]);
+      ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.lineTo(q[0], q[1]); ctx.stroke();
+    });
+  }
+  edges(0.22);
+  /* shared field sampler — with cross-module links */
+  const k1 = +tv.el.w1.value * Math.PI, k2 = +tv.el.w2.value * Math.PI, k3 = +tv.el.w3.value * Math.PI;
+  let ph = (reduced ? 0.8 : t) * +tv.el.ph.value;
+  if (tv.driveOn){ lo.keepAlive(); ph = ph*0.25 + lo.x * 0.22; }   /* the attractor drives the phase (and is stepped from here when its own canvas is off screen) */
+  const damp = tv.dampOn ? sz.params().D : 1;              /* the scramble zone damps the field */
+  const sp = tv.sweep ? Math.sin((reduced ? 1 : t) * 0.35) * 0.85 : null;
+  function fieldAt(T1, T2, T3){
+    /* Beat alignment is cos of the SUMMED phase, Re(Psi) of the header equation and Module V's coupled form;
+       its bright sets are planes, as the note below says. It was the mean of three cosines, which has
+       points rather than planes, rarely reaches the product field's peaks, and needed a hidden +0.2 on the
+       threshold to look similar. */
+    if (tv.mode === 1) return Math.cos(k1*T1 + k2*T2 + k3*T3 + ph) * damp;
+    const c1 = Math.cos(k1*T1 + ph), c2 = Math.cos(k2*T2 + ph*0.8), c3 = Math.cos(k3*T3 + ph*0.6);
+    return c1*c2*c3 * damp;
+  }
+  let litCount = 0, total = 0;
+  const th = +tv.el.th.value;
+
+  if (tv.render === 1){
+    /* ---- CUBIC MESH: the geodesic mesh field in t^3 structure ----
+       Lattice vertices displace radially with the local field value, so the
+       wireframe itself breathes — the t^2 surface undulation, one dimension up. */
+    const M = 8;
+    const V = [];                       /* vertex cache: [x2d, y2d, Z, v, near] */
+    for (let i = 0; i <= M; i++){
+      V[i] = [];
+      const T1 = -1 + 2*i/M;
+      for (let j = 0; j <= M; j++){
+        V[i][j] = [];
+        const T2 = -1 + 2*j/M;
+        for (let k = 0; k <= M; k++){
+          const T3 = -1 + 2*k/M;
+          const v = fieldAt(T1, T2, T3);
+          total++; if (Math.abs(v) >= th) litCount++;
+          const len = Math.hypot(T1, T2, T3);
+          const d = 1 + 0.16*v;         /* radial breathing */
+          const x = len < 1e-6 ? 0 : T1*d, y = len < 1e-6 ? 0 : T2*d, z = len < 1e-6 ? 0 : T3*d;
+          const p = P3(x, y, z);
+          const near = sp !== null && Math.abs(T3 - sp) < 2.2/M;
+          V[i][j][k] = [p[0], p[1], p[2], v, near, p[3]];
+        }
+      }
+    }
+    /* segments along all three axes, depth-sorted far→near */
+    const segs = [];
+    for (let i = 0; i <= M; i++) for (let j = 0; j <= M; j++) for (let k = 0; k <= M; k++){
+      const a = V[i][j][k];
+      if (i < M) segs.push([a, V[i+1][j][k]]);
+      if (j < M) segs.push([a, V[i][j+1][k]]);
+      if (k < M) segs.push([a, V[i][j][k+1]]);
+    }
+    segs.sort((s1, s2) => (s2[0][2] + s2[1][2]) - (s1[0][2] + s1[1][2]));
+    for (const [a, b] of segs){
+      const v = (a[3] + b[3]) / 2;
+      const mag = Math.abs(v);
+      const depth = (a[5] + b[5]) / 2;  /* perspective scale as depth cue */
+      ctx.strokeStyle = duo((v+1)/2, (0.05 + 0.55*mag) * depth);
+      ctx.lineWidth = (0.6 + mag*1.6) * depth;
+      ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+    }
+    /* slice flare: grid intersections on the sweeping plane */
+    if (sp !== null){
+      for (let i = 0; i <= M; i++) for (let j = 0; j <= M; j++) for (let k = 0; k <= M; k++){
+        const a = V[i][j][k];
+        if (!a[4]) continue;
+        ctx.fillStyle = `rgba(237,232,220,${0.35 + 0.55*Math.abs(a[3])})`;
+        ctx.beginPath(); ctx.arc(a[0], a[1], (1.4 + Math.abs(a[3])*2.4)*a[5], 0, 7); ctx.fill();
+      }
+    }
+  } else {
+    /* ---- POINT FIELD ---- */
+    const N = 10;
+    const pts = [];
+    for (let i = 0; i <= N; i++){
+      const T1 = -1 + 2*i/N;
+      for (let j = 0; j <= N; j++){
+        const T2 = -1 + 2*j/N;
+        for (let k = 0; k <= N; k++){
+          const T3 = -1 + 2*k/N;
+          const v = fieldAt(T1, T2, T3);
+          total++;
+          const a = Math.abs(v);
+          if (a < th) continue;
+          litCount++;
+          const near = sp !== null && Math.abs(T3 - sp) < 0.11;
+          const p = P3(T1, T2, T3);
+          pts.push([p[0], p[1], p[2], p[3], v, near]);
+        }
+      }
+    }
+    pts.sort((a, b) => b[2] - a[2]);        /* far first */
+    for (const [x, y, Z, s, v, near] of pts){
+      const a = Math.abs(v);
+      const dim = sp !== null && !near ? 0.35 : 1;
+      ctx.fillStyle = near ? `rgba(237,232,220,${0.85*a})` : duo((v+1)/2, (0.16 + 0.6*a) * s * dim);
+      const r = (1.2 + a*3.2) * s * (near ? 1.5 : 1);
+      ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill();
+    }
+  }
+  /* sweep plane outline */
+  if (sp !== null){
+    ctx.strokeStyle = "rgba(237,232,220,.5)"; ctx.setLineDash([4,5]); ctx.lineWidth = 1.2;
+    const Q = [[-1,-1,sp],[1,-1,sp],[1,1,sp],[-1,1,sp]];
+    ctx.beginPath();
+    Q.forEach((q, i) => { const p = P3(...q); i === 0 ? ctx.moveTo(p[0], p[1]) : ctx.lineTo(p[0], p[1]); });
+    ctx.closePath(); ctx.stroke(); ctx.setLineDash([]);
+    const lp = P3(1.06, -1, sp);
+    ctx.fillStyle = "rgba(237,232,220,.6)"; ctx.font = "10.5px 'IBM Plex Mono', monospace";
+    ctx.fillText("T\u2083 = " + sp.toFixed(2), lp[0] + 4, lp[1]);
+    /* --- the sweep extracts data: live slice heatmap --- */
+    const hx = 16, hy = h - 158, hw = 128, hh = 100, gx = 24, gy = 18;
+    ctx.fillStyle = "rgba(7,11,20,.72)";
+    ctx.fillRect(hx - 6, hy - 20, hw + 12, hh + 32);
+    for (let i = 0; i < gx; i++){
+      const T1 = -1 + 2*i/(gx-1);
+      for (let j = 0; j < gy; j++){
+        const T2 = -1 + 2*j/(gy-1);
+        const v = fieldAt(T1, T2, sp);
+        ctx.fillStyle = duo((v+1)/2, 0.25 + 0.65*Math.abs(v));
+        ctx.fillRect(hx + i*(hw/gx), hy + j*(hh/gy), hw/gx - 0.6, hh/gy - 0.6);
+      }
+    }
+    ctx.strokeStyle = "rgba(237,232,220,.3)"; ctx.strokeRect(hx, hy, hw, hh);
+    ctx.fillStyle = "rgba(237,232,220,.65)"; ctx.font = "9.5px 'IBM Plex Mono', monospace";
+    ctx.fillText("\u03A6(T\u2081,T\u2082) @ slice", hx, hy - 8);
+    /* --- |Phi| profile along T3: what the sweep has measured --- */
+    const px0 = hx + hw + 26, pw = w - px0 - 20, py = h - 66, phh = 44;
+    if (pw > 90){
+      ctx.fillStyle = "rgba(7,11,20,.72)";
+      ctx.fillRect(px0 - 6, py - phh - 18, pw + 12, phh + 34);
+      const nP = 40;
+      let sliceMean = 0;
+      ctx.strokeStyle = AMBER; ctx.lineWidth = 1.5;
+      ctx.shadowColor = "rgba(245,168,60,.4)"; ctx.shadowBlur = 5;
+      ctx.beginPath();
+      for (let q = 0; q <= nP; q++){
+        const T3 = -1 + 2*q/nP;
+        let m = 0;
+        for (let a = 0; a < 7; a++) for (let b = 0; b < 7; b++)
+          m += Math.abs(fieldAt(-1 + 2*a/6, -1 + 2*b/6, T3));
+        m /= 49;
+        if (Math.abs(T3 - sp) < 1.2/nP) sliceMean = m;
+        const x = px0 + pw*(q/nP), y = py - m*phh*1.6;
+        q === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.stroke(); ctx.shadowBlur = 0;
+      const mx2 = px0 + pw*((sp + 1)/2);
+      ctx.strokeStyle = "rgba(237,232,220,.6)";
+      ctx.beginPath(); ctx.moveTo(mx2, py - phh - 6); ctx.lineTo(mx2, py + 4); ctx.stroke();
+      ctx.fillStyle = IVORY;
+      ctx.beginPath(); ctx.arc(mx2, py - sliceMean*phh*1.6, 3.4, 0, 7); ctx.fill();
+      ctx.fillStyle = "rgba(237,232,220,.65)"; ctx.font = "9.5px 'IBM Plex Mono', monospace";
+      ctx.fillText("\u27E8|\u03A6|\u27E9 along T\u2083 \u00B7 slice = " + sliceMean.toFixed(3), px0, py - phh - 6);
+    }
+  }
+  edges(0.5);
+  /* axis labels */
+  ctx.font = "italic 15px 'STIX Two Text', serif"; ctx.fillStyle = "rgba(237,232,220,.7)";
+  const L1 = P3(1.3, -1, -1), L2 = P3(-1, 1.3, -1), L3 = P3(-1, -1, 1.3);
+  ctx.fillText("T\u2081", L1[0], L1[1]);
+  ctx.fillText("T\u2082", L2[0], L2[1]);
+  ctx.fillText("T\u2083", L3[0], L3[1]);
+  if (tv.render === 1){
+    /* the mesh counts on its own 9^3 vertices (and aliases at w = 4, two samples per cycle); the readout
+       is always taken on the point field's 11^3 grid so switching render mode no longer moves it */
+    litCount = 0; total = 0;
+    for (let i = 0; i <= 10; i++) for (let j = 0; j <= 10; j++) for (let k = 0; k <= 10; k++){
+      total++; if (Math.abs(fieldAt(-1 + i/5, -1 + j/5, -1 + k/5)) >= th) litCount++;
+    }
+  }
+  tv.litPct = 100*litCount/total;
+  tv.el.lit.textContent = Math.round(tv.litPct) + "%";
+  ctx.fillStyle = "rgba(237,232,220,.35)"; ctx.font = "10.5px 'IBM Plex Mono', monospace";
+  ctx.fillText(tv.render === 1 ? "cubic time mesh \u00B7 drag to rotate" : "drag to rotate the temporal volume", 14, h - 14);
+});
+function texNum(v, sig){
+  if (!isFinite(v)) return "\\infty";
+  const a = Math.abs(v);
+  if (a !== 0 && (a >= 1e4 || a < 1e-3)){
+    const e = Math.floor(Math.log10(a));
+    return (v/Math.pow(10, e)).toFixed(2) + "{\\times}10^{" + e + "}";
+  }
+  return (+v.toPrecision(sig || 4)).toString();
+}
+const LIVE = [];
+function liveEq(tag, fn){
+  const panel = document.querySelector('.eq-panel[data-tag="' + tag + '"]');
+  if (!panel) return;
+  const d = document.createElement("div");
+  d.className = "eq-live eq-scroll";
+  panel.appendChild(d);
+  LIVE.push({d, fn});
+}
+let liveTimer = null;
+function liveNow(){
+  LIVE.forEach(item => {
+    /* re-render only when the line changed: an unchanged KaTeX rebuild every heartbeat
+       snapped a sideways-scrolled row back to its start */
+    try { const tex = item.fn(); if (tex !== item.tex){ renderTex(item.d, tex); item.tex = tex; } item.d.dataset.err = ""; }
+    catch(e){ if (item.d.dataset.err !== "1"){ item.d.dataset.err = "1"; item.d.textContent = "\u2026"; item.tex = null; } }
+  });
+}
+function refreshLive(){
+  clearTimeout(liveTimer);
+  liveTimer = setTimeout(liveNow, 70);
+}
+setInterval(liveNow, 1200);
+liveEq("Cubic-time field", () => {
+  const w1 = +tv.el.w1.value, w2 = +tv.el.w2.value, w3 = +tv.el.w3.value;
+  return String.raw`\Psi = A\,e^{\,i\pi(${w1.toFixed(2)}\,T_1 + ${w2.toFixed(2)}\,T_2 + ${w3.toFixed(2)}\,T_3)},\qquad A = (t_1t_2t_3)^{-1/2} = \big((${texNum(tv.T.t1)})(${texNum(tv.T.t2)})(${texNum(tv.T.t3)})\big)^{-1/2} = ${texNum(tv.A())}\ \mathrm{s^{-3/2}}` +
+    (w3 < 0.2 ? String.raw`,\qquad \omega_3 \to 0:\ \text{flat along } T_3` : "");
+});
+document.addEventListener("input", refreshLive, {passive:true});
+document.addEventListener("click", e => {
+  if (e.target.closest(".seg, .chip, .dim-item, .m3-cell, .scale-cell, .btn")) refreshLive();
+}, {passive:true});
+refreshLive();
+
+})();
+</script>
+</body>
+</html>
