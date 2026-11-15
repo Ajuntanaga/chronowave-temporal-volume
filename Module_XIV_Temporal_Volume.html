@@ -512,7 +512,7 @@ kbd{font-family:var(--mono);font-size:10px;color:var(--cyan);border:1px solid va
       <div style="color:var(--ivory);letter-spacing:.3em;text-transform:uppercase;margin-bottom:10px">Chronowave <span style="color:var(--amber)">Dynamics</span></div>
       <div>Framework &amp; papers &middot; Anthony M. Vargas &amp; Aethus Iqbal-Samir &middot; 2024&ndash;2026</div>
     </div>
-    <div class="disc">Module XIV &middot; The temporal volume, extracted standalone from the full Temporal Engine compendium on 2026-11-14. A speculative theoretical framework, presented as proposed in the source papers and prototypes.</div>
+    <div class="disc">Module XIV &middot; The temporal volume, extracted standalone from the full Temporal Engine compendium on 2026-11-15. A speculative theoretical framework, presented as proposed in the source papers and prototypes.</div>
   </div>
 </footer>
 
@@ -546,8 +546,8 @@ const lat = {
   root(){ return +this.rootEl.value; },
   actives(){ return [...this.mask].sort((a, b) => a - b); }
 };
-/* STUB of lo (Module XII) for the standalone extract: the attractor's x coordinate and its keep-alive step, fixed at x = 0, so the "Lorenz drive" button only slows the phase animation to a quarter here (there is no attractor term). */
-const lo = { x: 0, keepAlive(){} };
+/* STUB of lo (Module XII) for the standalone extract: the attractor's x coordinate and its keep-alive and peek steps (peek is the silent step that the Observatory's ports take; nothing calls it in this page), fixed at x = 0, so the "Lorenz drive" button only slows the phase animation to a quarter here (there is no attractor term). */
+const lo = { x: 0, keepAlive(){}, peek(){} };
 /* STUB of sz (Module V) for the standalone extract: the scramble zone's damping factor D, fixed at 1 (no damping), so the "Scramble damping" button changes nothing here. */
 const sz = { params(){ return { D: 1 }; } };
 const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -769,6 +769,34 @@ tvCv.addEventListener("pointermove", e => {
 ["pointerup","pointercancel"].forEach(ev => tvCv.addEventListener(ev, () => {
   tv.dragging = false; tvCv.style.cursor = "grab";
 }));
+tv.t0 = performance.now();
+tv.sampler = function(t, peek){
+  const k1 = +tv.el.w1.value * Math.PI, k2 = +tv.el.w2.value * Math.PI, k3 = +tv.el.w3.value * Math.PI;
+  let ph = (reduced ? 0.8 : t) * +tv.el.ph.value;
+  if (tv.driveOn){ if (peek) lo.peek(); else lo.keepAlive(); ph = ph*0.25 + lo.x * 0.22; }   /* the attractor drives the phase (and is stepped from here when its own canvas is off screen) */
+  const damp = tv.dampOn ? sz.params().D : 1;              /* the scramble zone damps the field */
+  const mode = tv.mode;
+  return function fieldAt(T1, T2, T3){
+    /* Beat alignment is cos of the SUMMED phase, Re(Psi) of the header equation and Module V's coupled form;
+       its bright sets are planes, as the note below says. It was the mean of three cosines, which has
+       points rather than planes, rarely reaches the product field's peaks, and needed a hidden +0.2 on the
+       threshold to look similar. */
+    if (mode === 1) return Math.cos(k1*T1 + k2*T2 + k3*T3 + ph) * damp;
+    const c1 = Math.cos(k1*T1 + ph), c2 = Math.cos(k2*T2 + ph*0.8), c3 = Math.cos(k3*T3 + ph*0.6);
+    return c1*c2*c3 * damp;
+  };
+};
+tv.litNow = function(){
+  const f = tv.sampler(reduced ? 0 : (performance.now() - tv.t0)/1000, true), th = +tv.el.th.value;
+  let lit = 0, total = 0;
+  for (let i = 0; i <= 10; i++) for (let j = 0; j <= 10; j++) for (let k = 0; k <= 10; k++){
+    total++; if (Math.abs(f(-1 + i/5, -1 + j/5, -1 + k/5)) >= th) lit++;
+  }
+  return 100*lit/total;
+};
+tv.litRead = function(){
+  return performance.now() - (tv.litAt || -1e9) < 150 ? tv.litPct : tv.litNow();
+};
 animate(tvCv, (ctx, w, h, t) => {
   ctx.clearRect(0, 0, w, h);
   if (!tv.dragging && !reduced && !tv.lock) tv.rotY += 0.0016;
@@ -792,21 +820,9 @@ animate(tvCv, (ctx, w, h, t) => {
     });
   }
   edges(0.22);
-  /* shared field sampler — with cross-module links */
-  const k1 = +tv.el.w1.value * Math.PI, k2 = +tv.el.w2.value * Math.PI, k3 = +tv.el.w3.value * Math.PI;
-  let ph = (reduced ? 0.8 : t) * +tv.el.ph.value;
-  if (tv.driveOn){ lo.keepAlive(); ph = ph*0.25 + lo.x * 0.22; }   /* the attractor drives the phase (and is stepped from here when its own canvas is off screen) */
-  const damp = tv.dampOn ? sz.params().D : 1;              /* the scramble zone damps the field */
+  /* shared field sampler — with cross-module links (built by tv.sampler above, so the Observatory can take the same reading) */
+  const fieldAt = tv.sampler(t);
   const sp = tv.sweep ? Math.sin((reduced ? 1 : t) * 0.35) * 0.85 : null;
-  function fieldAt(T1, T2, T3){
-    /* Beat alignment is cos of the SUMMED phase, Re(Psi) of the header equation and Module V's coupled form;
-       its bright sets are planes, as the note below says. It was the mean of three cosines, which has
-       points rather than planes, rarely reaches the product field's peaks, and needed a hidden +0.2 on the
-       threshold to look similar. */
-    if (tv.mode === 1) return Math.cos(k1*T1 + k2*T2 + k3*T3 + ph) * damp;
-    const c1 = Math.cos(k1*T1 + ph), c2 = Math.cos(k2*T2 + ph*0.8), c3 = Math.cos(k3*T3 + ph*0.6);
-    return c1*c2*c3 * damp;
-  }
   let litCount = 0, total = 0;
   const th = +tv.el.th.value;
 
@@ -962,7 +978,7 @@ animate(tvCv, (ctx, w, h, t) => {
       total++; if (Math.abs(fieldAt(-1 + i/5, -1 + j/5, -1 + k/5)) >= th) litCount++;
     }
   }
-  tv.litPct = 100*litCount/total;
+  tv.litPct = 100*litCount/total; tv.litAt = performance.now();
   tv.el.lit.textContent = Math.round(tv.litPct) + "%";
   ctx.fillStyle = "rgba(237,232,220,.35)"; ctx.font = "10.5px 'IBM Plex Mono', monospace";
   ctx.fillText(tv.render === 1 ? "cubic time mesh \u00B7 drag to rotate" : "drag to rotate the temporal volume", 14, h - 14);
