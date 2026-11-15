@@ -519,7 +519,7 @@ kbd{font-family:var(--mono);font-size:10px;color:var(--cyan);border:1px solid va
 <script>
 (function(){
 "use strict";
-/* STUB of ladderTitle (Module I) for the standalone extract: a plain object with a textContent member, so the dimension buttons' wiring has something to write to; there is no Module I title bar here and nothing is displayed. */
+/* STUB of ladderTitle (Module I) for the standalone extract: a plain object with a textContent member, so the dimension buttons' wiring (present but inert here, since this page has no dimension buttons) has something to write to; there is no Module I title bar here and nothing is displayed. */
 const ladderTitle = { textContent: "Dimension · coordinate time" };
 /* STUB of FRAME (Module I) for the standalone extract: the same order, combo, COMBOS and last members with the real initial values (order 0, frame "t"); set() only records the chosen frame and announces "framechange", it does not redraw any Module I readout or page classes. Fixed at order 0, frame "t". */
 const FRAME = {
@@ -538,7 +538,7 @@ const FRAME = {
     document.dispatchEvent(new CustomEvent("framechange"));
   }
 };
-/* STUB of lat (Module IV) for the standalone extract: only the three members the "Lattice" chip uses. The real scale, root and tuning are fixed at their start-up values: scale {0,2,3,4,6,8,10} semitones (the identity scale), root 261.63 Hz, equal temperament. freq() keeps the real equal-temperament formula; actives() returns the fixed scale; root() returns the fixed root. */
+/* STUB of lat (Module IV) for the standalone extract: only the three members the "Lattice ωs" chip uses. The real scale, root and tuning are fixed at their start-up values: scale {0,2,3,4,6,8,10} semitones (the identity scale), root 261.63 Hz, equal temperament. freq() keeps the real equal-temperament formula; actives() returns the fixed scale; root() returns the fixed root. */
 const lat = {
   mask: new Set([0, 2, 3, 4, 6, 8, 10]),
   rootEl: { value: "261.63", addEventListener(){} },

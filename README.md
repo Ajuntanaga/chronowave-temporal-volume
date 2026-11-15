@@ -1,6 +1,6 @@
 # The temporal volume — Module XIV
 
-Standalone interactive extract of Module XIV, "The temporal volume", from the Chronowave Dynamics Temporal Engine: a single-file compendium of 17 interactive modules about the author's temporal framework. The full compendium, its manual and its edit log are in [chronowave-compendium](https://github.com/Ajuntanaga/chronowave-compendium). The module's own heading on the page reads: "Inside the cube: t&#179; made literal".
+Standalone interactive extract of Module XIV, "The temporal volume", from the Chronowave Dynamics Temporal Engine: a single-file compendium of 17 interactive modules about the author's temporal framework. The full compendium, its manual and its edit log are in [chronowave-compendium](https://github.com/Ajuntanaga/chronowave-compendium). The module's own heading on the page reads: "Inside the cube: t³ made literal".
 
 ## Use it
 
@@ -21,10 +21,11 @@ Made on 2026-11-14 from rev b91 of the compendium page (commit `6cf22d4` of chro
 
 ## Checks and limits
 
-- A scripted headless-Chromium test loaded the page, moved every slider, select and checkbox, clicked every button and sent pointer, wheel and key events to every canvas: 86 actions (slider moves, clicks, and pointer, wheel and key events), 1 canvas, no uncaught exception and no console error. It is a smoke test: this extract was not compared with the original module for identical behaviour, and nothing here has had an independent review.
+- A scripted headless-Chromium test loaded the page, moved every slider and select, clicked every button, sent pointer and wheel events to every canvas and sent key events to the document: 86 actions (the count includes 38 fixed key and window events), 1 canvas, no uncaught exception and no console error. The page has no selects. It is a smoke test: this extract was not compared with the original module for identical behaviour, and nothing here has had an independent review.
 - The rotatable cube, the three frequency sliders, the phase and threshold sliders, the field and view buttons and the live "volume this cube stands for" readout (V_T, the aspect ratio and the eq (6) normaliser A) are this module's own and work here.
-- The "Lattice" chip sets the three frequency ratios from the lattice of Module IV; here the lattice is fixed at its start-up state (the identity scale, root 261.63 Hz, equal temperament), so it always fills in 1.122, 1.189 and 1.260 (read from the code).
+- The "Lattice ωs" chip sets the three frequency ratios from the lattice of Module IV; here the lattice is fixed at its start-up state (the identity scale, root 261.63 Hz, equal temperament), so it always sets the ratios 2^(2/12), 2^(3/12) and 2^(4/12), which the 0.01-step sliders show as 1.12, 1.19 and 1.26 (read from the code).
 - The "Lorenz drive" chip needs Module XII: here the attractor's x is fixed at 0, so switching it on only slows the phase animation to a quarter, with no attractor term. The "Scramble damping" chip needs Module V: the damping factor is fixed at 1, so it changes nothing visible.
 - The frame choice made with the dimension buttons of Module I is not available, so the frame note beside the volume readout never appears.
+- The two module links in the readout ("to VIII", "to IX") point to in-page anchors that do not exist here, so they go nowhere.
 - The framework is the author's own and still in progress; Module XVII of the compendium (also a repository of its own, [chronowave-verdicts-and-rulings](https://github.com/Ajuntanaga/chronowave-verdicts-and-rulings)) carries the page's own verdicts and open rulings.
 - No license: all rights are reserved by default, beyond viewing and forking on GitHub; a license is the author's decision.
